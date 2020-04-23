@@ -1,0 +1,8 @@
+- hosts: raspberry_pies
+  roles:
+    #- common
+    - code
+    #- cron
+    #- systemd
+    #- hwclock
+  remote_user: pi

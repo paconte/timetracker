@@ -1,0 +1,25 @@
+- name: Store i2cdetect result
+  command: /usr/sbin/i2cdetect -y 1
+  register: i2c_status
+  ignore_errors: yes
+  become: yes
+
+- name: Add the real time clock module
+  copy:
+    src: modules
+    dest: /etc/modules
+    mode: '0644'
+    owner: root
+    group: root
+  when: i2c_status.rc == 0
+  become: yes
+
+- name: Bind the RTC
+  copy:
+    src: rc.local
+    dest: /etc/rc.local
+    mode: '0755'
+    owner: root
+    group: root
+  when: i2c_status.rc == 0
+  become: yes
