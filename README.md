@@ -82,4 +82,5 @@ KIMAI2_PASSWORD = ""
 ```
 
 Run ansible set up your raspberry-pi:
+
 `ansible-playbook -i inventory.yml playbook.yml`
