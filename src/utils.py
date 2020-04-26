@@ -11,8 +11,6 @@ import logging.config
 import yaml
 import pytz
 
-from shutil import copyfile
-
 from scp import SCPClient
 
 from ctes import LOGGING_CONFIG
@@ -144,18 +142,12 @@ def export_data_to_usb():
             logger.error('The USB has an unexpected directory structure.')
             return 3
 
-        # export file
-        company = get_company_short(session_factory()).value
-        filename = company + "_" + datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + "_" + SQLITE_EXPORT_FILE
-        _export_database_logs(filename)
-
-        # copy file to usb
+        # export file into usb
         destination = usb_path + dirs[0] + "/registro_horario/"
         pathlib.Path(destination).mkdir(parents=True, exist_ok=True)
-        copyfile(filename, destination + filename)
-
-        # delete local exported file
-        delete_file(SQLITE_EXPORT_FILE)
+        company = get_company_short(session_factory()).value
+        filename = company + "_" + datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + "_" + SQLITE_EXPORT_FILE
+        _export_database_logs(destination + filename)
 
         logger.info('Export data to the USB finished. Data exported to the USB.')
         return 0
