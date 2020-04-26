@@ -1,8 +1,8 @@
 - hosts: raspberry_pies
   roles:
-    #- common
+    - common
     - code
-    #- cron
-    #- systemd
-    #- hwclock
+    - cron
+    - systemd
+    - hwclock
   remote_user: pi
