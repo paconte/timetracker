@@ -40,7 +40,7 @@
 - name: Creates a cron file for syncronizing local data with kimai2 under /etc/cron.d
   cron:
     name: "sync local data with kimai2"
-    minute: "*/1"
+    hour: "*/1"
     user: pi
     job: "{{ansible_python_interpreter}} {{dst_project}}/src/{{kimai2_cron_script}}"
     cron_file: sync_kimai2
