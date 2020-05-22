@@ -1,7 +1,10 @@
-# Fingerprint timetracking on a raspberry-pi
+# Fingerprint timetracking with a raspberry-pi
 
-This python application is written to keep a clockin and clockout record of employees via fingerprint.
-Originally is designed to work on a restaurant.
+## Background
+Currently the European Union force to all the companies to keep a record of all employees working times. The application is compliant with the EU requirements.
+
+## Description
+This is a python application running on a raspberry-pi with a fingerprint reader. It records all employees clockin and clock out in timesheets that are automatically uploaded to a Kima2 application on the cloud. The project is originally designed for restaurants, 
 
 ## Technologies
 
