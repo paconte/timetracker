@@ -26,9 +26,11 @@ This is a python application running on a raspberry-pi with a fingerprint reader
 
 Install the latest raspberian OS into your raspberry-pi.
 
-To continue with ansible installation you have to copy your ssh-key into the raspberry-pi.
+To continue with ansible installation you have to copy your ssh-key into the raspberry-pi. You can use the below command where the USERNAME value is your username at the raspberry pi and the IP-ADDRES value is the ip addres of the raspberry pi.
+
 
 `ssh-copy-id <USERNAME>@<IP-ADDRESS>`
+
 
 Install ansible in the local machine.
 
