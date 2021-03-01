@@ -14,11 +14,11 @@ handlers:
     formatter: simple
     stream: ext://sys.stdout
 
-  info_file_handler:
+  k2sync:
     class: logging.handlers.RotatingFileHandler
     level: INFO
     formatter: simple
-    filename: /home/pi/timetracker/logs/timetracker.log
+    filename: /home/pi/timetracker/logs/k2sync.log
     #filename: /home/paconte/devel/timetracker/logs/timetracker.log
     maxBytes: 10485760 # 10MB
     backupCount: 20
@@ -26,4 +26,4 @@ handlers:
 
 root:
   level: INFO
-  handlers: [console, info_file_handler]
+  handlers: [console, k2sync]
