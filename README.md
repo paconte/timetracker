@@ -89,3 +89,10 @@ KIMAI2_PASSWORD = ""
 Run ansible set up your raspberry-pi:
 
 `ansible-playbook -i inventory.yml playbook.yml`
+
+
+## Logging
+
+The syncronization with the kimai2 server is logger by default into: `/home/pi/timetracker/logs/k2sync.log`
+
+The app logs are in `/var/log/syslog`. This need an improvement and the log file should be in `/home/pi/timetracker/logs` as well.
