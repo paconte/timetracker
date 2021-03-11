@@ -96,3 +96,18 @@ Run ansible set up your raspberry-pi:
 The syncronization with the kimai2 server is logger by default into: `/home/pi/timetracker/logs/k2sync.log`
 
 The app logs are in `/var/log/syslog`. This need an improvement and the log file should be in `/home/pi/timetracker/logs` as well.
+
+
+## Fingerprint reader and raspberry pi connection
+
+I am using `DollaTek Blau Licht Optischer Fingerabdruckleser Sensormodul für Arduino Mega2560 UNO R3` (https://www.amazon.de/gp/product/B07PRMXXXN/ref=ppx_yo_dt_b_asin_title_o06_s00?ie=UTF8&psc=1).
+
+### Cable configuration (it might be different for your fingerprint device)
+
+The red cable is 3.3V
+
+The white cable is TxD
+
+The yellow cable is RxD
+
+The black cable is GND
