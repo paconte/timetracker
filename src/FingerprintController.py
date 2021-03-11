@@ -96,10 +96,9 @@ class FingerprintController:
         self.f.deleteTemplate(position)
         logger.info('User \"{}\" with template position #{} deleted.', username, str(position))
 
-
     def search_user(self):
         try:
-            print('Waiting for finger...')
+            logger.info('Waiting for finger...')
 
             ## Wait that finger is read
             while self.f.readImage() == False:
@@ -124,3 +123,6 @@ class FingerprintController:
         except Exception as e:
             logger.exception('Error while searching for a fingerprint template.')
             return self.RESULT_ERROR
+
+    def delete_database(self):
+        self.f.deleteDatabase()
