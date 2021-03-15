@@ -111,3 +111,18 @@ The white cable is TxD
 The yellow cable is RxD
 
 The black cable is GND
+
+
+## Case for pi and Fingerprint
+
+The idea is to print it with a 3D printer using one of this designs as a base:
+
+https://www.thingiverse.com/thing:4610955
+
+https://www.thingiverse.com/thing:3363847
+
+https://www.thingiverse.com/thing:1413527
+
+https://www.thingiverse.com/thing:1803757
+
+https://www.thingiverse.com/thing:2798667
