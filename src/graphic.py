@@ -3,7 +3,6 @@
 import tkinter as tk
 import logging
 
-from cysystemd import journal
 from datetime import datetime
 from PIL import Image
 from PIL import ImageTk
@@ -33,8 +32,7 @@ from utils import update_wifi_configuration
 
 
 # logging configuration
-logging.config.dictConfig(get_logging_dict_config())
-logger = logging.getLogger('timetracker')
+logger = logging.getLogger(__name__)
 
 
 b_height = 4
