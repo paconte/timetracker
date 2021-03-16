@@ -66,7 +66,7 @@ def _export_database_logs(filename):
     sql = sql_str.format(setting=TABLE_NAME_SETTING, user_action=TABLE_NAME_USER_ACTION)
     sql = 'SELECT u.name, t.begin, t.end FROM timesheet t INNER JOIN user u ON t.user_id=u.id;'
     with open(filename, 'w') as fp:
-        subprocess.run(['sqlite3', '-header', '-csv', SQLITE_DB_FILE, sql], stdout=fp)
+        subprocess.run(['sqlite3', '-header', '-csv', '-separator', ';', SQLITE_DB_FILE, sql], stdout=fp)
 
     #sql = 'SELECT (SELECT value FROM setting WHERE name = "uuid"),
     #  (SELECT value FROM setting WHERE name = "company"), created_at, action, user FROM user_action;'
