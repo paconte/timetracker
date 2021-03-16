@@ -8,7 +8,6 @@ from pyfingerprint import PyFingerprint
 
 logger = logging.getLogger(__name__)
 
-
 class FingerprintController:
 
     f = None
@@ -19,7 +18,7 @@ class FingerprintController:
 
     def __init__(self):
         try:
-            self.f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+            self.f = PyFingerprint('/dev/ttyS0', 57600, 0xFFFFFFFF, 0x00000000)
             if self.f.verifyPassword() == False:
                 raise ValueError('The given fingerprint sensor password is wrong!')
         except Exception as e:
