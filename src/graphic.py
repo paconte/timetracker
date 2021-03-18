@@ -3,14 +3,12 @@
 import tkinter as tk
 import logging
 
-from tkinter import font as tkfont
-from tkinter import messagebox
-
+from datetime import datetime
 from PIL import Image
 from PIL import ImageTk
-
-from datetime import datetime
 from time import sleep
+from tkinter import font as tkfont
+from tkinter import messagebox
 from random import random
 
 from ctes import COLUMN_USERNAME_MAX_LENGTH
@@ -21,7 +19,6 @@ from ctes import WIFI_TMP_CONFIG_FILE
 from ctes import WIFI_CONFIG_HEADER
 
 from models import session_factory
-from models import add_user
 from models import get_user_by_template
 from models import add_login2
 from models import add_logout2
@@ -34,8 +31,9 @@ from utils import create_wifi_executable
 from utils import update_wifi_configuration
 
 
+# logging configuration
 logger = logging.getLogger(__name__)
-logging.config.dictConfig(get_logging_dict_config())
+
 
 b_height = 4
 b_width = 50

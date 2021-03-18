@@ -11,9 +11,8 @@ from utils import get_logging_dict_config
 
 
 # variables
-logger = logging.getLogger(__name__)
 logging.config.dictConfig(get_logging_dict_config())
-
+logger = logging.getLogger('k2sync')
 
 base_url = KIMAI2_URL
 user0 = KIMAI2_USER

@@ -138,15 +138,16 @@ def delete_file(filename):
 
 
 def create_database(filename):
+    logger.info("Delete database file.")
     delete_file(filename)
-    # create the database
     logger.info("Create the database and tables")
     Base.metadata.create_all(engine)
+    logger.info("Initialize database")
     init_database()
 
 
 def init_database():
-    logger.info("Initialize the database.")
+    logger.info("DB => Initialize the database.")
     set_company(COMPANY_NAME, session_factory())
     set_country(COMPANY_COUNTRY, session_factory())
     set_currency(COMPANY_CURRENCY, session_factory())
@@ -162,7 +163,7 @@ def init_database():
     set_user_password(COMPANY_USER_PASSWORD, session_factory())
     set_user_email(COMPANY_USER_EMAIL, session_factory())
     set_uuid(session_factory())
-    logger.info("Database ilitialized.")
+    logger.info("DB => Database initialized.")
 
 
 def add_user(name, template, session):
@@ -321,12 +322,13 @@ def add_setting(name, value, session):
 
 def add_kimai2_setting(key, value, k2_id, session):
     setting = session.query(Setting).get(key)
+    k2 = False if k2_id is None else True
     if setting:
         setting.value = value
-        setting.k2 = True
+        setting.k2 = k2
         setting.k2_id = k2_id
     else:
-        setting = Setting(name=key, value=value, k2=True, k2_id=k2_id)
+        setting = Setting(name=key, value=value, k2=k2, k2_id=k2_id)
     _single_commit(setting, session)
 
 
@@ -466,7 +468,7 @@ def get_project(session):
     return result
 
 
-def set_project(name, session, k2_id=None):
+def set_project(name, session, k2_id=False):
     add_kimai2_setting('project', name, k2_id, session)
 
 

@@ -8,7 +8,6 @@ from pyfingerprint import PyFingerprint
 
 logger = logging.getLogger(__name__)
 
-
 class FingerprintController:
 
     f = None
@@ -19,7 +18,7 @@ class FingerprintController:
 
     def __init__(self):
         try:
-            self.f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+            self.f = PyFingerprint('/dev/ttyS0', 57600, 0xFFFFFFFF, 0x00000000)
             if self.f.verifyPassword() == False:
                 raise ValueError('The given fingerprint sensor password is wrong!')
         except Exception as e:
@@ -96,10 +95,9 @@ class FingerprintController:
         self.f.deleteTemplate(position)
         logger.info('User \"{}\" with template position #{} deleted.', username, str(position))
 
-
     def search_user(self):
         try:
-            print('Waiting for finger...')
+            logger.info('Waiting for finger...')
 
             ## Wait that finger is read
             while self.f.readImage() == False:
@@ -124,3 +122,6 @@ class FingerprintController:
         except Exception as e:
             logger.exception('Error while searching for a fingerprint template.')
             return self.RESULT_ERROR
+
+    def delete_database(self):
+        self.f.deleteDatabase()

@@ -5,4 +5,5 @@
     - cron
     - systemd
     - hwclock
+    - uart
   remote_user: pi
