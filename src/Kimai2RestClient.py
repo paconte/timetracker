@@ -37,6 +37,11 @@ class Kimai2API:
         resp = requests.patch(url, headers=self.headers, json=params)
         return resp
 
+    def delete_action(self, action, params):
+        url = self.base_url + action
+        resp = requests.delete(url, headers=self.headers, json=params)
+        return resp
+
     def get_activities(self):
         return self.get_action('activities')
 
@@ -85,7 +90,7 @@ class Kimai2API:
         params = {
             "name": name,
             "customer": customer_id,
-            "color": color,
+            #"color": color,
             "visible": True
         }
         return self.post_action('projects', params)
@@ -130,16 +135,39 @@ class Kimai2API:
             }
         return self.post_action('users', params)
 
+    def delete_user(self, id):
+        params = {
+            "id": id
+        }
+        return self.delete_action('users', params)
+
+    def delete_team(self, id):
+        params = {
+            "id": id
+        }
+        return self.delete_action('teams', params)
+
+    def delete_customer(self, id):
+        params = {
+            "id": id
+        }
+        return self.delete_action('customers', params)
+
+    def delete_project(self, id):
+        params = {
+            "id": id
+        }
+        return self.delete_action('projects', params)
 
 
 if __name__ == "__main__":
 
     # variables
-    base_url = 'http://192.168.1.107/api/'
-    user0 = 'admin2'
+    base_url = 'http://192.168.1.45:8001/api/'
+    user0 = 'admin'
     user1 = 'Isaac'
     user2 = 'Paco'
-    passwd = 'lapaletaapi'
+    passwd = 'adminadmin'
 
     # init
     api = Kimai2API(user0, passwd, base_url)
@@ -182,5 +210,8 @@ if __name__ == "__main__":
    '''
 
     resp = api.get_customers()
+    print(resp)
+    print(resp.json())
+    resp = api.get_activities()
     print(resp)
     print(resp.json())
