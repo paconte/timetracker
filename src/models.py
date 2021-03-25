@@ -94,7 +94,8 @@ class Timesheet(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
-    begin = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
+    #begin = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
+    begin = Column(DateTime, default=datetime.datetime.now(), nullable=False)
     end = Column(DateTime, default=None, nullable=True)
     k2_id = Column(Integer, unique=True, nullable=True)
 
@@ -302,6 +303,7 @@ def add_logout2(user, session):
     elif last_action.end is None:
         # allow logout after login
         last_action.end = datetime.datetime.now()
+        datetime.datetime.utcnow
         _single_commit(last_action, session)
         result = 0
 
