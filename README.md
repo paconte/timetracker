@@ -24,17 +24,38 @@ This is a python application running on a raspberry-pi with a fingerprint reader
 
 ## Installation (last edit 24.04.2020)
 
+### Set up your raspberry-pi
+
 Install the latest raspberian OS into your raspberry-pi.
 
-To continue with ansible installation you have to copy your ssh-key into the raspberry-pi. You can use the below command where the USERNAME value is your username at the raspberry pi and the IP-ADDRES value is the ip addres of the raspberry pi.
+After login in your raspberry-pi allow ssh access to your raspberry-pi, e.g:
+```
+sudo systemctl enable ssh
+sudo systemctl start ssh
+```
 
+### Set up the harwarce clock on your raspberry-pi
+
+Set up the hardware clock in your raspberry OS, a couple of howtoes: [howto1](https://pimylifeup.com/raspberry-pi-rtc/), [howto2](https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi)
+
+As summary of the above tutorial you will have the following steps:
+
+1) Bind physically the hardware clock
+
+2) Enable the I2C module running on your raspberry-pi: ```sudo raspi-config```
+
+### On your local development machine
+
+To automate the set up of your raspberry-pi with ansible, you will have to copy your ssh-key into the raspberry-pi. You can use the below command on , where the USERNAME value is your username at the raspberry-pi and the IP-ADDRES value is the ip addres of the raspberry-pi.
 
 `ssh-copy-id <USERNAME>@<IP-ADDRESS>`
 
-
-Install ansible in the local machine.
+Install ansible in the local machine, e.g.:
 
 `sudo apt install ansible`
+or
+`brew install ansible`
+
 
 Edit the file ansible/inventory.yml and set the ip value of your raspberry and your local source code path:
 
@@ -46,14 +67,14 @@ raspberry_pies:
     src_project: /home/paconte/devel/timetracker # set your src path here
 ```
 
-Set up the hardware clock in your raspberry OS, a couple of howtoes: [howto1](https://pimylifeup.com/raspberry-pi-rtc/), [howto2](https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi)
-
 Edit the file src/ctes.py for your needs, but at least set the following variables:
 
 ```python
-# Raspbian file constants
+#### Raspbian file constants ####
+## The path where the project is installed in your raspberry-pi
 PROD_PATH = '/home/pi/timetracker'
-DEVEL_PATH = '/home/paconte/devel/timetracker'
+## The path to your local developement repository
+DEVEL_PATH = '/Users/paconte/dev/rusties/timetracker'
 ```
 
 Edit the file src/ctes.py to set up your customers values:
@@ -86,10 +107,11 @@ KIMAI2_USER = ""
 KIMAI2_PASSWORD = ""
 ```
 
-Run ansible set up your raspberry-pi:
+Run ansible to set up your raspberry-pi. Go inside your repository path and run:
 
-`ansible-playbook -i inventory.yml playbook.yml`
-
+```
+cd ansible && ansible-playbook -i inventory.yml playbook.yml
+```
 
 ## Logging
 
