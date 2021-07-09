@@ -40,3 +40,7 @@
 - name: Install pip requirements
   pip:
     requirements: "{{dst_project}}/src/requirements.txt"
+
+- name: Create database if not exists
+  ansible.builtin.shell: cd {{dst_project}} && python3 models.py
+  when: db_result.stat.exists == False

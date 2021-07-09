@@ -3,9 +3,12 @@
 import logging
 
 
-# Raspbian file constants
+#### Raspbian file constants ####
+## The path where the project is installed in your raspberry-pi
 PROD_PATH = '/home/pi/timetracker'
-DEVEL_PATH = '/home/paconte/devel/timetracker'
+## The path to your local developement repository
+#DEVEL_PATH = '/home/paconte/devel/timetracker'
+DEVEL_PATH = '/Users/paconte/dev/rusties/timetracker'
 PROJECT_PATH = PROD_PATH
 LOGGING_CONFIG = PROJECT_PATH + '/src/logging.yml'
 SQLITE_DB_FILE = PROJECT_PATH + '/src/sqlite3.db'
@@ -13,7 +16,7 @@ SQLITE_EXPORT_FILE = 'horarios.csv'
 TEST_SQLITE_DB_FILE = 'test' + SQLITE_DB_FILE
 TEST_SQLITE_EXPORT_FILE = 'test' + SQLITE_EXPORT_FILE
 
-# Python logging constants
+#### Python logging constants
 LOGGING_DEFAULT_LEVEL = logging.INFO
 
 # Database constants
