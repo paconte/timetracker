@@ -4,27 +4,45 @@
 Currently the European Union force to all the companies to keep a record of all employees working times. The application is compliant with the EU requirements.
 
 ## Description
-This is a python application running on a raspberry-pi with a fingerprint reader. It records all employees clockin and clock out in timesheets that are automatically uploaded to a Kima2 application on the cloud. The project is originally designed for restaurants, 
+This is a python application running on a raspberry-pi with a fingerprint reader. It records all employees clockin and clock out in timesheets that are automatically uploaded to a [kimai2] application on the cloud. The project is originally designed to be running in restaurants keeping records of employees timesheets. 
 
-## Technologies
+Contents
+========
 
-### Software
+ * [Hardware](#hardware)
+ * [Installation](#installation)
+ * [Troubleshooting](#troubleshooting)
+ * [Custom case](#custom-case)
 
-- The application is mainly written in python3.
-- Ansible is used for automatic deployment into a raspbian operating system.
-- The application also contain some bash script
-- A single C file for generating WiFi configurations.
 
-### Hardware requirements
+### Hardware
+---
+
 - Raspberry-pi 4. It has not been tested with other raspberry pies.
 - Real Time Clock. The raspberry-pi has no hardware clock.
 - Fingerprint reader. It should be compatible with ZhianTec (ZFM-20, ZFM-60, ZFM-70 and ZFM-100). Visit the driver website https://github.com/bastianraschke/pyfingerprint for more information.
 - Touch screen. For this project I used the official raspberry-pi 7 inches touch screen.
 - A custom hardcase. You can use a 3d printer for it.
 
-## Installation (last edit 24.04.2020)
+**Fingerprint reader and raspberry pi connection**
 
-### Set up your raspberry-pi
+I am using `DollaTek Blau Licht Optischer Fingerabdruckleser Sensormodul für Arduino Mega2560 UNO R3` (https://www.amazon.de/gp/product/B07PRMXXXN/ref=ppx_yo_dt_b_asin_title_o06_s00?ie=UTF8&psc=1).
+
+**Fingerprint cable configuration (it might be different for your fingerprint device)**
+
+The red cable is 3.3V
+
+The white cable is TxD
+
+The yellow cable is RxD
+
+The black cable is GND
+
+
+### Installation
+---
+
+**Set up your raspberry-pi**
 
 Install the latest raspberian OS into your raspberry-pi.
 
@@ -34,7 +52,7 @@ sudo systemctl enable ssh
 sudo systemctl start ssh
 ```
 
-### Set up the harwarce clock on your raspberry-pi
+**Set up the harwarce clock on your raspberry-pi**
 
 Set up the hardware clock in your raspberry OS, a couple of howtoes: [howto1](https://pimylifeup.com/raspberry-pi-rtc/), [howto2](https://thepihut.com/blogs/raspberry-pi-tutorials/17209332-adding-a-real-time-clock-to-your-raspberry-pi)
 
@@ -44,7 +62,7 @@ As summary of the above tutorial you will have the following steps:
 
 2) Enable the I2C module running on your raspberry-pi: ```sudo raspi-config```
 
-### On your local development machine
+**On your local development machine**
 
 To automate the set up of your raspberry-pi with ansible, you will have to copy your ssh-key into the raspberry-pi. You can use the below command on , where the USERNAME value is your username at the raspberry-pi and the IP-ADDRES value is the ip addres of the raspberry-pi.
 
@@ -110,32 +128,22 @@ KIMAI2_PASSWORD = ""
 Run ansible to set up your raspberry-pi. Go inside your repository path and run:
 
 ```
-cd ansible && ansible-playbook -i inventory.yml playbook.yml
+cd ansible/raspberry && ansible-playbook -i inventory.yml playbook.yml
 ```
 
-## Logging
+
+
+### Troubleshooting
+---
 
 The syncronization with the kimai2 server is logger by default into: `/home/pi/timetracker/logs/k2sync.log`
 
 The app logs are in `/var/log/syslog`. This need an improvement and the log file should be in `/home/pi/timetracker/logs` as well.
 
 
-## Fingerprint reader and raspberry pi connection
 
-I am using `DollaTek Blau Licht Optischer Fingerabdruckleser Sensormodul für Arduino Mega2560 UNO R3` (https://www.amazon.de/gp/product/B07PRMXXXN/ref=ppx_yo_dt_b_asin_title_o06_s00?ie=UTF8&psc=1).
-
-### Cable configuration (it might be different for your fingerprint device)
-
-The red cable is 3.3V
-
-The white cable is TxD
-
-The yellow cable is RxD
-
-The black cable is GND
-
-
-## Case for pi and Fingerprint
+### Custom case
+---
 
 The idea is to print it with a 3D printer using one of this designs as a base:
 
@@ -148,3 +156,7 @@ https://www.thingiverse.com/thing:1413527
 https://www.thingiverse.com/thing:1803757
 
 https://www.thingiverse.com/thing:2798667
+
+
+
+[kimai2]: <https://github.com/kevinpapst/kimai2>
