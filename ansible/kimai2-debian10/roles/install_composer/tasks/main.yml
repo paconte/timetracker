@@ -1,0 +1,26 @@
+- name: Delete php composer install sript
+  file:
+    path: /root/install_composer.sh
+    state: absent
+  become: true
+
+
+- name: Copy php composer install script
+  copy:
+    src: install_composer.sh
+    dest: /root/install_composer.sh
+    owner: root
+    group: root
+    mode: '0754'
+  become: true
+
+
+- name: Install php composer
+  shell: /root/install_composer.sh
+
+
+- name: Delete php composer install sript
+  file:
+    path: /root/install_composer.sh
+    state: absent
+  become: true

@@ -1,0 +1,8 @@
+- hosts: debian10
+  roles:
+    #- packages
+    #- install_composer
+    - create_database
+    - install_kimai2
+    - configure_nginx
+  remote_user: root
