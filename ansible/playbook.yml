@@ -1,9 +1,0 @@
-- hosts: raspberry_pies
-  roles:
-    - common
-    - code
-    - cron
-    - systemd
-    - hwclock
-    - uart
-  remote_user: pi
