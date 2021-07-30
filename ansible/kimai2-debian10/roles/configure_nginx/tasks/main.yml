@@ -1,0 +1,44 @@
+#ln -s /etc/nginx/sites-available/kimai2 /etc/nginx/sites-enabled/kimai2
+#unlink /etc/nginx/sites-enabled/default
+#nginx -t && service nginx reload
+
+
+- name: Delete kimai2 nginx configuration (step 1)
+  file:
+    state: absent
+    path: /etc/nginx/sites-available/kimai2
+
+
+- name: Delete kimai2 nginx configuration (step 2)
+  file:
+    state: absent
+    path: /etc/nginx/sites-enabled/kimai2
+
+
+- name: Delete default nginx configuration
+  file:
+   path: /etc/nginx/sites-enabled/default
+   state: absent
+
+
+- name: Copy kimai2 nginx configuration
+  copy:
+    src: kimai2
+    dest:  /etc/nginx/sites-available/kimai2
+    owner: root
+    group: root
+    mode: '0644'
+
+
+- name: Create link to kimai2 nginx configuration
+  command: ln -s /etc/nginx/sites-available/kimai2 /etc/nginx/sites-enabled/kimai2
+
+
+- name: Test nginx new configuration
+  command: nginx -t
+
+
+- name: Reload nginx
+  command: service nginx reload
+
+

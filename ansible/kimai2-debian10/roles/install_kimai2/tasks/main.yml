@@ -1,0 +1,106 @@
+- name: Delete kimai2 sources
+  file:
+    state: absent
+    path: /var/www/kimai2/
+
+
+- name: Git clone kimai2
+  command: git clone -b 1.14.3 --depth 1 https://github.com/kevinpapst/kimai2.git /var/www/kimai2/
+
+
+- name: Recursively change ownership of a kimai2 directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+
+
+- name: Set permissions for kimai2 directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/
+    state: directory
+    mode: "g+r"
+
+
+- name: Set permissions for kimai2/var directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/var/
+    state: directory
+    mode: "g+rw"
+
+
+- name: Set permissions for kimai2/public/avatars directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/public/avatars/
+    state: directory
+    mode: "g+rw"
+
+
+- name: Create .env file
+  command: cp /var/www/kimai2/.env.dist /var/www/kimai2/.env
+  become: yes
+  become_user: www-data
+
+
+- name: Configure kimai2 database connection (step 1)
+  command: sed -i 's/user:password/kimai2:KIMAI2-password-123/1' /var/www/kimai2/.env
+  become: yes
+  become_user: www-data
+
+
+- name: Configure kimai2 database connection (step 2)
+  command: sed -i 's/database/kimai2/1' /var/www/kimai2/.env
+  become: yes
+  become_user: www-data
+
+
+- name: Install kimai2 dependencies
+  command: chdir=/var/www/kimai2/ composer install --no-dev --optimize-autoloader
+  become: yes
+  become_user: www-data
+
+
+- name: Install Kimai2
+  command: chdir=/var/www/kimai2/ bin/console kimai:install -n
+  become: yes
+  become_user: www-data
+
+
+- name: Create Kimai2 admin user
+  command: chdir=/var/www/kimai2/ bin/console kimai:create-user admin admin@example.com ROLE_SUPER_ADMIN foobar123
+  register: result
+  failed_when: ( "Success!" not in result.stdout )
+  become: yes
+  become_user: www-data
+
+
+- name: Recursively change ownership of a kimai2 directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/
+    state: directory
+    recurse: yes
+    owner: www-data
+    group: www-data
+
+
+- name: Set permissions for kimai2 directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/
+    state: directory
+    mode: "g+r"
+
+
+- name: Set permissions for kimai2/var directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/var/
+    state: directory
+    mode: "g+rw"
+
+
+- name: Set permissions for kimai2/public/avatars directory
+  ansible.builtin.file:
+    path: /var/www/kimai2/public/avatars/
+    state: directory
+    mode: "g+rw"

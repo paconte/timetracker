@@ -1,0 +1,73 @@
+---
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: 'yes'
+    update_cache: yes
+  become: true
+
+
+- name: Install editors
+  apt:
+    name:
+      - emacs
+      - vim
+
+
+- name: Install kimai2 database
+  apt:
+    name:
+      - python3
+    state: present
+    autoclean: yes
+  become: true
+
+
+- name: Install python3 for ansible
+  apt:
+    name:
+      - python3
+      - python3-pymysql
+    state: present
+    autoclean: yes
+  become: true
+
+
+- name: Install kimai2 packages
+  apt:
+    name:
+      - php-fpm
+      - php-cli
+      - php-common
+      - php-json
+      - php-opcache
+      - php-readline
+      - php-xml
+      - php-zip
+      - php-intl
+      - php-gd
+      - php-mbstring
+      - php-mysql
+      - php-curl
+    state: present
+    autoclean: yes
+  become: true
+
+
+- name: Install kimai2 web server
+  apt:
+    name:
+      - nginx
+    state: present
+    autoclean: yes
+  become: true
+
+
+- name: Install utils
+  apt:
+    name:
+      - git
+      - unzip
+      - curl
+    state: present
+    autoclean: yes
+  become: true
