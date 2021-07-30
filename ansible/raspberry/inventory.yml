@@ -1,0 +1,11 @@
+raspberry_pies:
+  hosts:
+    192.168.1.20
+  vars:
+    # python interpreter in your raspberry-pi
+    ansible_python_interpreter: /usr/bin/python3
+    # src_project: /home/paconte/dev/timetracker          # debian
+    src_project: /Users/paconte/dev/rusties/timetracker   # mac
+    dst_project: /home/pi/timetracker
+    ngrok_key: 1Zi72DVfILFpeKcJpVEsLGtshNT_SXvbsmimLNCq6Lkkz4oh
+    kimai2_cron_script: kimai2_sync.py
