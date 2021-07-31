@@ -23,6 +23,7 @@ from ctes import COMPANY_COUNTRY
 from ctes import COMPANY_CURRENCY
 from ctes import COMPANY_USER_EMAIL
 from ctes import COMPANY_USER_PASSWORD
+from ctes import COMPANY_PROJECT
 
 from sqlalchemy import create_engine
 from sqlalchemy import Boolean
@@ -157,6 +158,7 @@ def init_database():
     set_language(COMPANY_LANGUAGE, session_factory())
     set_timezone(COMPANY_TZ, session_factory())
     set_team(COMPANY_SHORT_NAME, session_factory())
+    set_project(COMPANY_PROJECT, session_factory())
     set_customer(COMPANY_SHORT_NAME, session_factory())
     set_leader_email(COMPANY_LEADER_EMAIL, session_factory())
     set_leader(COMPANY_LEADER_NAME, session_factory())
@@ -470,7 +472,7 @@ def get_project(session):
     return result
 
 
-def set_project(name, session, k2_id=False):
+def set_project(name, session, k2_id=None):
     add_kimai2_setting('project', name, k2_id, session)
 
 

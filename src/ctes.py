@@ -46,6 +46,7 @@ R_ERROR = 1
 
 # Customers custom variables
 COMPANY_NAME = "Restaurante Pizzeria la Palette"
+COMPANY_PROJECT = "palette"
 COMPANY_SHORT_NAME = "palette"
 COMPANY_TZ = "Europe/Madrid"
 COMPANY_CURRENCY = "EUR"
