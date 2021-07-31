@@ -90,23 +90,35 @@ def create_team_leader(api, force=False):
         tz = models.get_timezone(models.session_factory()).value
         password = models.get_leader_password(models.session_factory()).value
 
-        # create team leader in Kimai2
+    except Exception:
+        logger.error("Error collecting data from the database.")
+        return
+
+    # create team leader in Kimai2
+    try:
         resp = api.create_team_leader(username, email, lang, tz, password)
+    except Exception:
+        logger.error(f"Error connecting to kimai2: ({api.url}, {username}, {email}, {lang}, {password})")
+        return
 
-        if resp.status_code != 200:
-            logger.error("Failed to create team leader in Kimai2: %s", username)
-            logger.error("Status: {}, Values: {}, {}, {}, {}".format(
+    logger.info("PASO 2")
+
+    if resp.status_code != 200:
+        logger.error("Failed to create team leader in Kimai2: %s", username)
+        logger.error("Status: {}, Values: {}, {}, {}, {}".format(
                 str(resp.status_code), username, email, lang, tz))
-            logger.error(resp.json())
-            return
+        logger.error(resp.json())
+        return
 
-        # update local database
+    logger.info("PASO 3")
+
+    # update local database
+    try:
         obj = resp.json()
         models.set_leader(obj['username'], models.session_factory(), obj['id'])
         logger.info("Team leader created: {}, {}".format(obj['id'], obj['username']))
-
     except Exception:
-        logging.exception("Failed to create a team leader in Kimai2")
+        logging.error("Failed to save data into the database")
 
     logger.info("KIMAI2 => Finished creating team leader")
 
@@ -134,21 +146,30 @@ def create_team(api, force=False):
             logger.info("KIMAI2 => Finished creating a team")
             return
 
-        # create team in Kimai2
-        resp = api.create_team(name, leader_id)
-        if resp.status_code != 200:
-            logger.error("Failed to create a team in Kima2: %s", name)
-            logger.error("Status: {}, Values: {}, {}".format(str(resp.status_code), name, leader_id))
-            logger.error(resp.json())
-            return
+    except Exception:
+        logger.error("Error collecting data from the database.")
+        return
 
-        # update local database
+    # create team in Kimai2
+    try:
+        resp = api.create_team(name, leader_id)
+    except Exception:
+        logger.error(f"Error connecting to kimai2: ({api.url}, {name}, {leader_id})")
+        return
+
+    if resp.status_code != 200:
+        logger.error("Failed to create a team in Kima2: %s", name)
+        logger.error("Status: {}, Values: {}, {}".format(str(resp.status_code), name, leader_id))
+        logger.error(resp.json())
+        return
+
+    # update local database
+    try:
         obj = resp.json()
         models.set_team(name, models.session_factory(), leader_id)
         logger.info("Team created: {}, {}".format(obj['id'], obj['name']))
-
     except Exception:
-        logging.exception("Failed to create a team in Kimai2")
+        logging.error("Failed to save data into the database")
 
     logger.info("KIMAI2 => Finished creating a team")
 
@@ -157,7 +178,7 @@ def create_customer(api, force=False):
     logger.info("KIMAI2 => Creating customer")
 
     try:
-         # check if is already created
+        # check if is already created
         customer = models.get_customer(models.session_factory())
         if customer is not None and customer.k2_id is not None and not force:
             logger.info("Customer no created. Customer already exists")
@@ -171,22 +192,31 @@ def create_customer(api, force=False):
         currency = models.get_currency(models.session_factory()).value
         color = models.get_color(models.session_factory()).value
 
-        # create customer in Kimai2
-        resp = api.create_customer(name, country, currency, tz, color)
-        if resp.status_code != 200:
-            logger.error("Failed to create customer in Kimai2: %s", name)
-            logger.error("Status: {}, Values: {}, {}, {}, {}".format(
-                str(resp.status_code), name, country, tz, color))
-            logger.error(resp.json())
-            return
+    except Exception:
+        logger.error("Error collecting data from the database.")
+        return
 
-        # update local database
+    # create customer in Kimai2
+    try:
+        resp = api.create_customer(name, country, currency, tz, color)
+    except Exception:
+        logger.error(f"Error connecting to kimai2: ({api.url}, {name}, {country}, {currency}, {tz}, {color}")
+        return
+
+    if resp.status_code != 200:
+        logger.error("Failed to create customer in Kimai2: %s", name)
+        logger.error("Status: {}, Values: {}, {}, {}, {}".format(
+            str(resp.status_code), name, country, tz, color))
+        logger.error(resp.json())
+        return
+
+    # update local database
+    try:
         obj = resp.json()
         models.set_customer(obj['name'], models.session_factory(), obj['id'])
         logger.info("Customer created: {}, {}".format(obj['id'], obj['name']))
-
     except Exception:
-        logging.exception("Failed to create customer in Kimai2")
+        logging.error("Failed to save data into the database")
 
     logger.info("KIMAI2 => Finished creating a customer")
 
@@ -213,22 +243,31 @@ def create_project(api, force=False):
         customer = models.get_customer(models.session_factory()).k2_id
         color = models.get_color(models.session_factory()).value
 
-        # create project in Kimai2
-        resp = api.create_project(name, customer, color)
-        if resp.status_code != 200:
-            logger.error("Failed to create project in Kimai2: %s", name)
-            logger.error("Status: {}, Values: {}, {}, {}".format(
-                str(resp.status_code), name, customer, color))
-            logger.error(resp.json())
-            return
+    except Exception:
+        logger.error("Error collecting data from the database.")
+        return
 
-        # update local database
+    # create project in Kimai2
+    try:
+        resp = api.create_project(name, customer, color)
+    except Exception:
+        logger.error(f"Error connecting to kimai2: ({api.url}, {name}, {customer}, {color}")
+        return
+
+    if resp.status_code != 200:
+        logger.error("Failed to create project in Kimai2: %s", name)
+        logger.error("Status: {}, Values: {}, {}, {}".format(
+            str(resp.status_code), name, customer, color))
+        logger.error(resp.json())
+        return
+
+    # update local database
+    try:
         obj = resp.json()
         models.set_project(obj['name'], models.session_factory(), obj['id'])
         logger.info("Project created: {}, {}".format(obj['id'], obj['name']))
-
     except Exception:
-        logging.exception("Failed to create project in Kimai2")
+        logging.error("Failed to save data into the database")
 
     logger.info("KIMAI2 => Finished creating a project")
 
@@ -263,26 +302,29 @@ def create_users(api):
     for user in users:
         try:
             resp = api.create_user(user.k2_name, user.k2_email, lang, tz, user.k2_password)
-            if resp.status_code != 200:
-                # wrong hhtp response, log error
-                logger.error("Failed to create user in Kimai2")
-                logger.error("Status: {}, Values: {}, {}, {}, {} {}".format(
-                    str(resp.status_code),
-                    user.k2_name,
-                    user.k2_email,
-                    lang,
-                    tz,
-                    user.k2_password))
-                logger.error(resp.json())
-            else:
-                # right http response, update local database
+        except Exception:
+            logger.error(f"Error connecting to kimai2: ({api.url}, {user.k2_name}, {user.k2_email}, {lang}, {tz}, {user.k2_password}")
+
+        if resp.status_code != 200:
+            # wrong hhtp response, log error
+            logger.error("Failed to create user in Kimai2")
+            logger.error("Status: {}, Values: {}, {}, {}, {} {}".format(
+                str(resp.status_code),
+                user.k2_name,
+                user.k2_email,
+                lang,
+                tz,
+                user.k2_password))
+            logger.error(resp.json())
+        else:
+            # right http response, update local database
+            try:
                 obj = resp.json()
                 models.set_user_kimai2_id(user, obj['id'], session)
                 logger.info("User created: {}, {}".format(obj['id'], obj['username']))
                 users_counter += 1
-
-        except Exception:
-            logging.exception(f"Failed to create user {user.name}")
+            except Exception:
+                logging.error("Failed to save data into the database")
 
     session.close()
     logger.info(f"Total users created: {users_counter}")

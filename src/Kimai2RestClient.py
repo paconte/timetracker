@@ -21,25 +21,25 @@ class Kimai2API:
         }
 
     def get_action(self, action, id=None):
-        url = self.base_url + action
+        self.url = self.base_url + action
         if id is not None:
-            url += '/{:d}'.format(id)
-        resp = requests.get(url, headers=self.headers)
+            self.url += '/{:d}'.format(id)
+        resp = requests.get(self.url, headers=self.headers)
         return resp
 
     def post_action(self, action, params):
-        url = self.base_url + action
-        resp = requests.post(url, headers=self.headers, json=params)
+        self.url = self.base_url + action
+        resp = requests.post(self.url, headers=self.headers, json=params)
         return resp
 
     def patch_action(self, action, params):
-        url = self.base_url + action
-        resp = requests.patch(url, headers=self.headers, json=params)
+        self.url = self.base_url + action
+        resp = requests.patch(self.url, headers=self.headers, json=params)
         return resp
 
     def delete_action(self, action, params):
-        url = self.base_url + action
-        resp = requests.delete(url, headers=self.headers, json=params)
+        self.url = self.base_url + action
+        resp = requests.delete(self.url, headers=self.headers, json=params)
         return resp
 
     def get_activities(self):
