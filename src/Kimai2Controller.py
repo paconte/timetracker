@@ -101,16 +101,12 @@ def create_team_leader(api, force=False):
         logger.error(f"Error connecting to kimai2: ({api.url}, {username}, {email}, {lang}, {password})")
         return
 
-    logger.info("PASO 2")
-
     if resp.status_code != 200:
         logger.error("Failed to create team leader in Kimai2: %s", username)
         logger.error("Status: {}, Values: {}, {}, {}, {}".format(
                 str(resp.status_code), username, email, lang, tz))
         logger.error(resp.json())
         return
-
-    logger.info("PASO 3")
 
     # update local database
     try:
