@@ -1,9 +1,8 @@
 # Coppyright (c) 2020 Francisco Javier Revilla Linares to present.
 # All rights reserved.
 import logging
-import models
-
-from pyfingerprint import PyFingerprint
+import timetracker.models as models
+from timetracker.pyfingerprint import PyFingerprint
 
 
 logger = logging.getLogger(__name__)
@@ -124,4 +123,4 @@ class FingerprintController:
             return self.RESULT_ERROR
 
     def delete_database(self):
-        self.f.deleteDatabase()
+        self.f.clearDatabase()

@@ -11,24 +11,27 @@ from tkinter import font as tkfont
 from tkinter import messagebox
 from random import random
 
-from ctes import COLUMN_USERNAME_MAX_LENGTH
-from ctes import COLUMN_USERNAME_MIN_LENGTH
-from ctes import WIFI_CONFIG_NO_PASSWD
-from ctes import WIFI_CONFIG
-from ctes import WIFI_TMP_CONFIG_FILE
-from ctes import WIFI_CONFIG_HEADER
+from timetracker.ctes import (
+    COLUMN_USERNAME_MAX_LENGTH,
+    COLUMN_USERNAME_MIN_LENGTH,
+    WIFI_CONFIG_NO_PASSWD,
+    WIFI_CONFIG,
+    WIFI_TMP_CONFIG_FILE,
+    WIFI_CONFIG_HEADER
+)
 
-from models import session_factory
-from models import get_user_by_template
-from models import add_login2
-from models import add_logout2
+from timetracker.models import (
+    session_factory, get_user_by_template, add_login2, add_logout2
+)
 
 from FingerprintController import FingerprintController
-from utils import get_logging_dict_config
-from utils import delete_file
-from utils import export_data_to_usb
-from utils import create_wifi_executable
-from utils import update_wifi_configuration
+from timetracker.utils import (
+    get_logging_dict_config,
+    delete_file,
+    export_data_to_usb,
+    create_wifi_executable,
+    update_wifi_configuration
+)
 
 
 # logging configuration

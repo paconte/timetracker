@@ -1,7 +1,0 @@
-sqlalchemy
-scp
-Pillow
-pyserial
-pyyaml
-requests
-pytz

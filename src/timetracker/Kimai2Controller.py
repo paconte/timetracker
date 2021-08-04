@@ -14,18 +14,20 @@ Additionally, when the app is installed for the first time, an activity, a proje
 a team leader must be created in Kimai2.
 '''
 import logging
-import Kimai2RestClient
-import models
+import timetracker.Kimai2RestClient
+import timetracker.models
 
-from ctes import COMPANY_LEADER_PREFIX
-from ctes import COMPANY_EMAIL_EXTENSION
-from ctes import COMPANY_TZ
-from ctes import COMPANY_LANGUAGE
-from ctes import COMPANY_COUNTRY
-from ctes import COMPANY_COLOR
-from ctes import COMPANY_CURRENCY
-from ctes import KIMAI2_URL
-from ctes import COMPANY_LEADER_PASSWORD
+from timetracker.ctes import (
+    COMPANY_LEADER_PREFIX,
+    COMPANY_EMAIL_EXTENSION,
+    COMPANY_TZ,
+    COMPANY_LANGUAGE,
+    COMPANY_COUNTRY,
+    COMPANY_COLOR,
+    COMPANY_CURRENCY,
+    KIMAI2_URL,
+    COMPANY_LEADER_PASSWORD
+)
 
 from utils import local_date_to_utc
 from utils import date_to_kimai_date

@@ -2,12 +2,10 @@
 # All rights reserved.
 import logging
 
-from Kimai2Controller import Kimai2Controller
-from Kimai2RestClient import Kimai2API
-from ctes import KIMAI2_URL
-from ctes import KIMAI2_USER
-from ctes import KIMAI2_PASSWORD
-from utils import get_logging_dict_config
+from timetracker.Kimai2Controller import Kimai2Controller
+from timetracker.Kimai2RestClient import Kimai2API
+from timetracker.ctes import KIMAI2_URL, KIMAI2_USER, KIMAI2_PASSWORD
+from timetracker.utils import get_logging_dict_config
 
 
 # variables

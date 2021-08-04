@@ -5,8 +5,8 @@ import datetime
 
 from time import sleep
 from requests.auth import HTTPBasicAuth
-from utils import local_date_to_utc
-from utils import date_to_kimai_date
+from timetracker.utils import local_date_to_utc
+from timetracker.utils import date_to_kimai_date
 
 
 class Kimai2API:
@@ -162,28 +162,26 @@ class Kimai2API:
 
 if __name__ == "__main__":
 
+    from ctes import KIMAI2_URL, KIMAI2_USER, KIMAI2_PASSWORD
+
     # variables
-    base_url = 'http://192.168.1.45:8001/api/'
+    base_url = 'http://195.201.148.68/api/'
     user0 = 'admin'
     user1 = 'Isaac'
     user2 = 'Paco'
     passwd = 'adminadmin'
 
     # init
-    api = Kimai2API(user0, passwd, base_url)
+    #api = Kimai2API(KIMAI2_USER, KIMAI2_PASSWORD, KIMAI2_URL)
+    api = Kimai2API("admin", "foobar123", KIMAI2_URL)
+
 
     # calls
     '''
-    sleep(1)
-    resp = api.get_timesheets()
-    print('timesheets', resp)
-    for t in resp:
-        print('timesheet', t)
 
     sleep(1)
     resp = api.get_timesheet(1)
     print("timesheet", resp)
-
 
 
     begin = datetime.datetime(2020, 1, 1, 9, 0)
@@ -202,16 +200,4 @@ if __name__ == "__main__":
     print(utc_dt.strftime ("%Y-%m-%d %H:%M:%S"))
     print(kimai_dt)
     print(datetime.datetime.now())
-
-    ## test create user
-    resp = api.create_user("paconte", "paconte@gmail.com", "es", "Europe/Madrid", "pako666")
-    print(resp)
-    print(resp.json())
    '''
-
-    resp = api.get_customers()
-    print(resp)
-    print(resp.json())
-    resp = api.get_activities()
-    print(resp)
-    print(resp.json())
