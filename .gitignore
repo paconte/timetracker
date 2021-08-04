@@ -1,0 +1,15 @@
+## python
+*.pyc
+__pycache__/
+*.egg-info/
+
+## rust
+debug/
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+## editors
+.idea
+.vscode
