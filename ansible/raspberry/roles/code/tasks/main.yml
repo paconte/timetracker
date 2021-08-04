@@ -98,6 +98,12 @@
   command: "chdir={{dst_project}} {{dst_project}}/venv/bin/python3 -m pip install -e ./"
 
 
+- name: Delete egg-info directory
+  file:
+    state: absent
+    path: "{{dst_project}}/src/*.egg-info"
+
+
 - name: Restore database
   copy:
     src: "{{src_project}}/backup/sqlite3.db"
