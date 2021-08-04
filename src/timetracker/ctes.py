@@ -10,7 +10,8 @@ PROD_PATH = '/home/pi/timetracker'
 #DEVEL_PATH = '/home/paconte/devel/timetracker'
 DEVEL_PATH = '/Users/paconte/dev/rusties/timetracker'
 PROJECT_PATH = PROD_PATH
-LOGGING_CONFIG = PROJECT_PATH + '/src/logging.yml'
+LOGGING_CONFIG = PROJECT_PATH + '/src/timetracker/logging.yml'
+#SQLITE_DB_FILE = PROJECT_PATH + '/sqlite3.db'
 SQLITE_DB_FILE = PROJECT_PATH + '/src/sqlite3.db'
 SQLITE_EXPORT_FILE = 'horarios.csv'
 TEST_SQLITE_DB_FILE = 'test' + SQLITE_DB_FILE
@@ -46,6 +47,7 @@ R_ERROR = 1
 
 # Customers custom variables
 COMPANY_NAME = "Restaurante Pizzeria la Palette"
+COMPANY_PROJECT = "palette"
 COMPANY_SHORT_NAME = "palette"
 COMPANY_TZ = "Europe/Madrid"
 COMPANY_CURRENCY = "EUR"
@@ -61,9 +63,9 @@ COMPANY_USER_PASSWORD = "lapaletaapi"
 COMPANY_USER_EMAIL = "@" + COMPANY_SHORT_NAME + COMPANY_EMAIL_EXTENSION
 
 #kimai2 variables
-KIMAI2_URL = "http://192.168.1.45:8001/api/" # this is an example
-KIMAI2_USER = "admin"
-KIMAI2_PASSWORD = "adminadmin"
+KIMAI2_URL = "http://195.201.148.68/api/"
+KIMAI2_USER = "api_user_paleta"
+KIMAI2_PASSWORD = "api_password_paleta"
 
 # SSH constants
 SERVER_URL = ''

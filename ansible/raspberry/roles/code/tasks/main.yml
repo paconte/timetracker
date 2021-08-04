@@ -1,46 +1,112 @@
 - name: Check database exists
   stat:
+    #path: "{{dst_project}}/sqlite3.db"
     path: "{{dst_project}}/src/sqlite3.db"
   register: db_result
 
+
 - name: Backup database
   fetch:
+    #src: "{{dst_project}}/sqlite3.db"
     src: "{{dst_project}}/src/sqlite3.db"
     dest: "{{src_project}}/backup/sqlite3.db"
     flat: yes
   when: db_result.stat.exists == True
+
 
 - name: Clean project path
   file:
     state: absent
     path: "{{dst_project}}/"
 
+
 - name: Create project directory
   file:
     path: "{{dst_project}}"
     state: directory
 
-- name: Create logs directory
-  file:
-    path: "{{dst_project}}/logs"
-    state: directory
+
+- name: Copy README.md file
+  synchronize:
+    src: "{{src_project}}/README.md"
+    dest: "{{dst_project}}"
+
+
+- name: Copy README.md file
+  copy:
+    src: "{{src_project}}/README.md"
+    dest: "{{dst_project}}"
+
+
+- name: Copy pyproject.toml file
+  copy:
+    src: "{{src_project}}/pyproject.toml"
+    dest: "{{dst_project}}"
+
+
+- name: Copy setup.cfg file
+  copy:
+    src: "{{src_project}}/setup.cfg"
+    dest: "{{dst_project}}"
+
+
+- name: Copy setup.py file
+  copy:
+    src: "{{src_project}}/setup.py"
+    dest: "{{dst_project}}"
+
+
+- name: Copy requirements.txt file
+  copy:
+    src: "{{src_project}}/requirements.txt"
+    dest: "{{dst_project}}"
+
 
 - name: Synchronization of source code files
   synchronize:
     src: "{{src_project}}/src"
     dest: "{{dst_project}}"
 
+
+- name: Synchronization of tests code files
+  synchronize:
+    src: "{{src_project}}/tests"
+    dest: "{{dst_project}}"
+
+
+- name: Create logs directory
+  file:
+    path: "{{dst_project}}/logs"
+    state: directory
+
+
+- name: Upgrade pip
+  command: python3 -m pip install --upgrade pip
+
+
+- name: Create virtual environment
+  ansible.builtin.shell: python3 -m venv {{dst_project}}/venv
+
+
+- name: Install pip requirements
+  pip:
+    requirements: "{{dst_project}}/requirements.txt"
+    virtualenv: "{{dst_project}}/venv"
+
+
+- name: Install custom package
+  command: "chdir={{dst_project}} {{dst_project}}/venv/bin/python3 -m pip install -e ./"
+
+
 - name: Restore database
   copy:
     src: "{{src_project}}/backup/sqlite3.db"
+    #dest: "{{dst_project}}/sqlite3.db"
     dest: "{{dst_project}}/src/sqlite3.db"
     mode: '0644'
   when: db_result.stat.exists == True
 
-- name: Install pip requirements
-  pip:
-    requirements: "{{dst_project}}/src/requirements.txt"
 
 - name: Create database if not exists
-  ansible.builtin.shell: cd {{dst_project}} && python3 models.py
+  ansible.builtin.shell: "{{dst_project}}/venv/bin/python3 {{dst_project}}/src/timetracker/scripts/create_database.py"
   when: db_result.stat.exists == False

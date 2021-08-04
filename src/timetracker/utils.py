@@ -10,31 +10,32 @@ import logging
 import logging.config
 import yaml
 import pytz
+import string
+import random
 
 from scp import SCPClient
 
-from ctes import LOGGING_CONFIG
-from ctes import LOGGING_DEFAULT_LEVEL
-from ctes import SQLITE_DB_FILE
-from ctes import SQLITE_EXPORT_FILE
-from ctes import SERVER_URL
-from ctes import SSH_PORT
-from ctes import SSH_USER
-from ctes import SSH_PASSWORD
-from ctes import TABLE_NAME_USER_ACTION
-from ctes import TABLE_NAME_SETTING
-from ctes import SEND_DATA_SUBJECT
-from ctes import R_ERROR
-from ctes import R_INVALID_EMAIL
-from ctes import WIFI_C_CODE
-from ctes import WIFI_EXEC_FILE
+from timetracker.ctes import (
+    LOGGING_CONFIG,
+    LOGGING_DEFAULT_LEVEL,
+    SQLITE_DB_FILE,
+    SQLITE_EXPORT_FILE,
+    SERVER_URL,
+    SSH_PORT,
+    SSH_USER,
+    SSH_PASSWORD,
+    TABLE_NAME_USER_ACTION,
+    TABLE_NAME_SETTING,
+    SEND_DATA_SUBJECT,
+    R_ERROR,
+    R_INVALID_EMAIL,
+    WIFI_C_CODE,
+    WIFI_EXEC_FILE
+)
 
-from models import session_factory
-from models import UserAction
-from models import truncate_user_actions
-from models import get_uuid
-from models import get_company
-from models import get_company_short
+from timetracker.models import (
+    session_factory, UserAction, truncate_user_actions, get_uuid, get_company, get_company_short
+)
 
 
 logger = logging.getLogger(__name__)
@@ -187,3 +188,10 @@ def local_date_to_utc(date, timezone):
 
 def date_to_kimai_date(date):
     return date.strftime ("%Y-%m-%dT%H:%M:%S")
+
+
+def get_random_string(length):
+    # choose from all lowercase letter
+    letters = string.ascii_lowercase
+    result = ''.join(random.choice(letters) for i in range(length))
+    return result

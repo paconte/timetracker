@@ -5,8 +5,8 @@ import datetime
 
 from time import sleep
 from requests.auth import HTTPBasicAuth
-from utils import local_date_to_utc
-from utils import date_to_kimai_date
+from timetracker.utils import local_date_to_utc
+from timetracker.utils import date_to_kimai_date
 
 
 class Kimai2API:
@@ -21,25 +21,25 @@ class Kimai2API:
         }
 
     def get_action(self, action, id=None):
-        url = self.base_url + action
+        self.url = self.base_url + action
         if id is not None:
-            url += '/{:d}'.format(id)
-        resp = requests.get(url, headers=self.headers)
+            self.url += '/{:d}'.format(id)
+        resp = requests.get(self.url, headers=self.headers)
         return resp
 
     def post_action(self, action, params):
-        url = self.base_url + action
-        resp = requests.post(url, headers=self.headers, json=params)
+        self.url = self.base_url + action
+        resp = requests.post(self.url, headers=self.headers, json=params)
         return resp
 
     def patch_action(self, action, params):
-        url = self.base_url + action
-        resp = requests.patch(url, headers=self.headers, json=params)
+        self.url = self.base_url + action
+        resp = requests.patch(self.url, headers=self.headers, json=params)
         return resp
 
     def delete_action(self, action, params):
-        url = self.base_url + action
-        resp = requests.delete(url, headers=self.headers, json=params)
+        self.url = self.base_url + action
+        resp = requests.delete(self.url, headers=self.headers, json=params)
         return resp
 
     def get_activities(self):
@@ -158,60 +158,3 @@ class Kimai2API:
             "id": id
         }
         return self.delete_action('projects', params)
-
-
-if __name__ == "__main__":
-
-    # variables
-    base_url = 'http://192.168.1.45:8001/api/'
-    user0 = 'admin'
-    user1 = 'Isaac'
-    user2 = 'Paco'
-    passwd = 'adminadmin'
-
-    # init
-    api = Kimai2API(user0, passwd, base_url)
-
-    # calls
-    '''
-    sleep(1)
-    resp = api.get_timesheets()
-    print('timesheets', resp)
-    for t in resp:
-        print('timesheet', t)
-
-    sleep(1)
-    resp = api.get_timesheet(1)
-    print("timesheet", resp)
-
-
-
-    begin = datetime.datetime(2020, 1, 1, 9, 0)
-    end = datetime.datetime(2020, 1, 1, 10, 0)
-    begin_dt = date_to_kimai_date(local_date_to_utc(begin, "Europe/Madrid"))
-    end_dt = date_to_kimai_date(local_date_to_utc(end, "Europe/Madrid"))
-    resp = api.post_timesheets("2019-04-20T14:00:00", "2019-04-20T15:00:00", 1, 1)
-    #print(begin, end, begin_dt, end_dt)
-    print("POST - timesheets", resp)
-    if resp.status_code == 200:
-        print(resp.json())
-
-
-    utc_dt = local_date_to_utc(datetime.datetime.now(), "Europe/Madrid")
-    kimai_dt = date_to_kimai_date(utc_dt)
-    print(utc_dt.strftime ("%Y-%m-%d %H:%M:%S"))
-    print(kimai_dt)
-    print(datetime.datetime.now())
-
-    ## test create user
-    resp = api.create_user("paconte", "paconte@gmail.com", "es", "Europe/Madrid", "pako666")
-    print(resp)
-    print(resp.json())
-   '''
-
-    resp = api.get_customers()
-    print(resp)
-    print(resp.json())
-    resp = api.get_activities()
-    print(resp)
-    print(resp.json())

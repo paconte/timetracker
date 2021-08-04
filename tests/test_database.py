@@ -1,15 +1,16 @@
 # Coppyright (c) 2020 Francisco Javier Revilla Linares to present.
 # All rights reserved.
 import unittest
-import models
 import uuid
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ctes import TEST_SQLITE_DB_FILE
+
+import timetracker.models as models
+from timetracker.ctes import TEST_SQLITE_DB_FILE
 
 
-class DatabaseCase(unittest.TestCase):
+class TestDatabase(unittest.TestCase):
     engine = create_engine('sqlite:///' + TEST_SQLITE_DB_FILE, echo=False)
     #engine = create_engine('sqlite:///:memory:')
     Session = sessionmaker(bind=engine)
@@ -142,6 +143,3 @@ class DatabaseCase(unittest.TestCase):
         actions = self.session.query(models.UserAction).all()
         self.assertEqual(0, len(actions))
 
-
-if __name__ == "__main__":
-    unittest.main()

@@ -5,24 +5,27 @@ import enum
 import logging
 import os
 
-from ctes import SQLITE_DB_FILE
-from ctes import TEST_SQLITE_DB_FILE
-from ctes import TABLE_NAME_USER
-from ctes import TABLE_NAME_USER_ACTION
-from ctes import TABLE_NAME_SETTING
-from ctes import TABLE_NAME_TIMESHEET
-from ctes import COMPANY_NAME
-from ctes import COMPANY_SHORT_NAME
-from ctes import COMPANY_LANGUAGE
-from ctes import COMPANY_TZ
-from ctes import COMPANY_LEADER_NAME
-from ctes import COMPANY_LEADER_EMAIL
-from ctes import COMPANY_LEADER_PASSWORD
-from ctes import COMPANY_COLOR
-from ctes import COMPANY_COUNTRY
-from ctes import COMPANY_CURRENCY
-from ctes import COMPANY_USER_EMAIL
-from ctes import COMPANY_USER_PASSWORD
+from timetracker.ctes import (
+    SQLITE_DB_FILE,
+    TEST_SQLITE_DB_FILE,
+    TABLE_NAME_USER,
+    TABLE_NAME_USER_ACTION,
+    TABLE_NAME_SETTING,
+    TABLE_NAME_TIMESHEET,
+    COMPANY_NAME,
+    COMPANY_SHORT_NAME,
+    COMPANY_LANGUAGE,
+    COMPANY_TZ,
+    COMPANY_LEADER_NAME,
+    COMPANY_LEADER_EMAIL,
+    COMPANY_LEADER_PASSWORD,
+    COMPANY_COLOR,
+    COMPANY_COUNTRY,
+    COMPANY_CURRENCY,
+    COMPANY_USER_EMAIL,
+    COMPANY_USER_PASSWORD,
+    COMPANY_PROJECT
+)
 
 from sqlalchemy import create_engine
 from sqlalchemy import Boolean
@@ -41,12 +44,17 @@ from sqlalchemy.ext.declarative import declarative_base
 logger = logging.getLogger(__name__)
 
 Base = declarative_base()
-engine = create_engine('sqlite:///' + SQLITE_DB_FILE, echo=False)
-_SessionFactory = sessionmaker(bind=engine)
+#engine = create_engine(f"sqlite:////{SQLITE_DB_FILE}", echo=False)
+#engine = create_engine('sqlite:////home/pi/timetracker/src/timetracker/sqlite3.db', echo=False)
+engine = create_engine('sqlite:////home/pi/timetracker/src/sqlite3.db', echo=False)
 
+
+_SessionFactory = sessionmaker(bind=engine)
+#Session = sessionmaker()
+#Session.configure(bind=engine)
+#session = Session()
 
 # models
-
 
 class Setting(Base):
     __tablename__ = TABLE_NAME_SETTING
@@ -157,6 +165,7 @@ def init_database():
     set_language(COMPANY_LANGUAGE, session_factory())
     set_timezone(COMPANY_TZ, session_factory())
     set_team(COMPANY_SHORT_NAME, session_factory())
+    set_project(COMPANY_PROJECT, session_factory())
     set_customer(COMPANY_SHORT_NAME, session_factory())
     set_leader_email(COMPANY_LEADER_EMAIL, session_factory())
     set_leader(COMPANY_LEADER_NAME, session_factory())
@@ -470,7 +479,7 @@ def get_project(session):
     return result
 
 
-def set_project(name, session, k2_id=False):
+def set_project(name, session, k2_id=None):
     add_kimai2_setting('project', name, k2_id, session)
 
 
@@ -512,7 +521,3 @@ def get_color(session):
 
 def set_color(name, session):
     add_setting('color', name, session)
-
-
-if __name__ == "__main__":
-    create_database(SQLITE_DB_FILE)

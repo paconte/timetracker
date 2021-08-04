@@ -6,7 +6,8 @@ User=pi
 Group=pi
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/pi/.Xauthority
-ExecStart=/usr/bin/python3 /home/pi/timetracker/src/graphic.py
+ExecStart=/home/pi/timetracker/venv/bin/python /home/pi/timetracker/src/graphic.py
+#ExecStart=/usr/bin/python3 /home/pi/timetracker/src/graphic.py
 Restart=always
 RestartSec=10s
 KillMode=process
