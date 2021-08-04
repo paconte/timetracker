@@ -1,3 +1,4 @@
+from src.timetracker.utils import local_date_to_utc
 import pytest
 
 from timetracker.Kimai2RestClient import Kimai2API
@@ -33,5 +34,16 @@ def test_create_user():
     password = get_random_string(10)
     resp = API.create_user(username, email, "es", "Europe/Madrid", password)
     assert resp.status_code == 200
+
+
+@pytest.mark.skip(reason="This is just an example of how to create timesheets in kimai2")
+def test_create_timesheet():
+    from datetime import datetime
+    from timetracker.utils import date_to_kimai_date, local_date_to_utc
+    begin = datetime.datetime(2020, 1, 1, 9, 0)
+    end = datetime.datetime(2020, 1, 1, 10, 0)
+    begin_dt = date_to_kimai_date(local_date_to_utc(begin, "Europe/Madrid"))
+    end_dt = date_to_kimai_date(local_date_to_utc(end, "Europe/Madrid"))
+    resp = API.create_timesheet("2019-04-20T14:00:00", "2019-04-20T15:00:00", 1, 1)
 
 
