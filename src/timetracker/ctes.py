@@ -7,7 +7,6 @@ import logging
 ## The path where the project is installed in your raspberry-pi
 PROD_PATH = '/home/pi/timetracker'
 ## The path to your local developement repository
-#DEVEL_PATH = '/home/paconte/devel/timetracker'
 DEVEL_PATH = '/Users/paconte/dev/rusties/timetracker'
 PROJECT_PATH = PROD_PATH
 LOGGING_CONFIG = PROJECT_PATH + '/src/timetracker/logging.yml'
@@ -34,9 +33,9 @@ WIFI_CONFIG_NO_PASSWD = 'network={{\n    ssid="{ssid}"\n    key_mgmt=NONE\n}}'
 WIFI_CONFIG = 'network={{\n    ssid="{ssid}"\n    psk="{password}"\n    key_mgmt=WPA-PSK\n}}'
 WIFI_TMP_CONFIG_FILE = PROJECT_PATH + '/wifi_config.txt'
 WIFI_CONFIG_FILE = '/etc/wpa_supplicant/wpa_supplicant.conf'
-WIFI_C_CODE = PROJECT_PATH + '/src/wifi.c'
-WIFI_EXEC_FILE = PROJECT_PATH + '/src/wifi'
-WIFI_SCRIPT = PROJECT_PATH + '/src/update_wifi.sh'
+WIFI_C_CODE = PROJECT_PATH + '/src/timetracker/wifi.c'
+WIFI_EXEC_FILE = PROJECT_PATH + '/src/timetracker/wifi'
+WIFI_SCRIPT = PROJECT_PATH + '/src/timetracker/update_wifi.sh'
 
 # Other ...
 SEND_DATA_SUBJECT = '"Control horario de empleados"'

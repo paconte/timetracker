@@ -42,6 +42,6 @@
     name: "sync local data with kimai2"
     hour: "*/1"
     user: pi
-    job: "{{ansible_python_interpreter}} {{dst_project}}/src/{{kimai2_cron_script}}"
+    job: "{{timetracker_python}} {{kimai2_cron_script}}"
     cron_file: sync_kimai2
   become: true

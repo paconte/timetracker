@@ -20,6 +20,7 @@ passwd = KIMAI2_PASSWORD
 This script is designed to be run regularly via cron job.
 """
 if __name__ == "__main__":
+    logger.info("############################")
     logger.info("Kimai2 syncronization starts.")
     api = Kimai2API(user0, passwd, base_url)
     k2c = Kimai2Controller(api)
@@ -30,3 +31,4 @@ if __name__ == "__main__":
     k2c.create_users()
     k2c.create_timesheets()
     logger.info("Kimai2 syncronization finished.")
+    logger.info("############################")

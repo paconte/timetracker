@@ -115,7 +115,7 @@ class FingerprintController:
                 logger.warn('No fingerprint match found')
                 return self.RESULT_NO_MATCH
             else:
-                logger.info('Found template at position #{} with accuracy score of {}', str(positionNumber), str(accuracyScore))
+                logger.info(f"Found template at position #{positionNumber} with accuracy score of {accuracyScore}")
                 return positionNumber
 
         except Exception as e:

@@ -7,5 +7,6 @@ raspberry_pies:
     # src_project: /home/paconte/dev/timetracker          # debian
     src_project: /Users/paconte/dev/rusties/timetracker   # mac
     dst_project: /home/pi/timetracker
+    timetracker_python: /home/pi/timetracker/venv/bin/python
+    kimai2_cron_script: /home/pi/timetracker/src/timetracker/kimai2_sync.py
     ngrok_key: 1Zi72DVfILFpeKcJpVEsLGtshNT_SXvbsmimLNCq6Lkkz4oh
-    kimai2_cron_script: kimai2_sync.py

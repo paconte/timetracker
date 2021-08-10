@@ -14,8 +14,8 @@ Additionally, when the app is installed for the first time, an activity, a proje
 a team leader must be created in Kimai2.
 '''
 import logging
-import timetracker.Kimai2RestClient
-import timetracker.models
+import timetracker.Kimai2RestClient as Kimai2RestClient
+import timetracker.models as models
 
 from timetracker.ctes import (
     COMPANY_LEADER_PREFIX,

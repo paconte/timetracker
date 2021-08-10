@@ -8,6 +8,7 @@ formatters:
     format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 handlers:
+
   console:
     class: logging.StreamHandler
     level: DEBUG
@@ -19,11 +20,19 @@ handlers:
     level: INFO
     formatter: simple
     filename: /home/pi/timetracker/logs/k2sync.log
-    #filename: /home/paconte/devel/timetracker/logs/timetracker.log
     maxBytes: 10485760 # 10MB
     backupCount: 20
     encoding: utf8
 
+  graphic:
+    # this handler is used by systemd that is why it is the standard output
+    # the systemd will log and it will be readble with:
+    # sudo journalctl -exfu timetracker.service
+    class: logging.StreamHandler
+    level: INFO
+    formatter: simple
+    stream: ext://sys.stdout
+
 root:
   level: INFO
-  handlers: [console, k2sync]
+  handlers: [console, k2sync, graphic]

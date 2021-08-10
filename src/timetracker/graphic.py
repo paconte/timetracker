@@ -35,8 +35,9 @@ from timetracker.utils import (
 
 
 # logging configuration
-logger = logging.getLogger(__name__)
-
+#logger = logging.getLogger(__name__)
+logging.config.dictConfig(get_logging_dict_config())
+logger = logging.getLogger('graphic')
 
 b_height = 4
 b_width = 50
@@ -680,9 +681,9 @@ class ConfigureWifiPage(tk.Frame):
 
 
 if __name__ == "__main__":
-    logging.info('Starting application')
+    logger.info('Starting application')
     create_wifi_executable()
     app = SampleApp()
     app.attributes("-fullscreen", True)
     app.mainloop()
-    logging.info('Finish starting application')
+    logger.info('Finish starting application')

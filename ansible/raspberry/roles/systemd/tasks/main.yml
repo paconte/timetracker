@@ -10,6 +10,7 @@
 - name: Start timetracker service
   systemd:
     name: timetracker.service
+    state: restarted
     enabled: yes
     daemon_reload: yes
   become: true

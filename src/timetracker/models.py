@@ -39,6 +39,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql.schema import UniqueConstraint
 
 
 logger = logging.getLogger(__name__)
@@ -103,11 +104,13 @@ class Timesheet(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
     #begin = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
-    begin = Column(DateTime, default=datetime.datetime.now(), nullable=False)
+    begin = Column(DateTime, nullable=False)
     end = Column(DateTime, default=None, nullable=True)
     k2_id = Column(Integer, unique=True, nullable=True)
-
     user = relationship('User', foreign_keys='Timesheet.user_id')
+
+    UniqueConstraint(user_id, begin)
+    UniqueConstraint(user_id, end)
 
 
 def _single_commit(instance, session):
@@ -293,7 +296,8 @@ def add_login2(user, session):
     last_action = _get_last_timesheet(user, session)
     # allow login after logout or no action
     if last_action is None or last_action.end is not None:
-        timesheet = Timesheet(user=user)
+        timesheet = Timesheet(user=user, begin=datetime.datetime.now())
+        logger.info(f"New timesheet entry: ({user.name} {timesheet.begin})")
         _single_commit(timesheet, session)
         result = True
 
@@ -312,7 +316,7 @@ def add_logout2(user, session):
     elif last_action.end is None:
         # allow logout after login
         last_action.end = datetime.datetime.now()
-        datetime.datetime.utcnow
+        logger.info(f"New timesheet entry: ({user.name} {last_action.begin} -> {last_action.end})")
         _single_commit(last_action, session)
         result = 0
 
