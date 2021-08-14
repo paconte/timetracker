@@ -10,7 +10,6 @@ Environment=PYTHONUNBUFFERED=1
 ExecStart=/home/pi/timetracker/venv/bin/python /home/pi/timetracker/src/timetracker/graphic.py
 StandardOutput=/home/pi/timetracker/logs/graphic.log
 StandardError=/home/pi/timetracker/logs/graphic.log
-#ExecStart=/usr/bin/python3 /home/pi/timetracker/src/graphic.py
 Restart=always
 RestartSec=10s
 KillMode=process
