@@ -415,9 +415,9 @@ def create_timesheets(api):
             if ts.user.k2_id is None:
                 logger.error(f"Failed to create timesheet. User {ts.user.name} does not exists")
                 return
-            # user_k2_id = models.get_user_by_id(ts.user_id).k2_id
+            user = models.get_user_by_id(ts.user_id, models.session_factory()).k2_id
             # api = Kimai2RestClient.Kimai2API(ts.user.k2_name, ts.user.k2_password, url)
-            resp = api.create_timesheet(kimai2_begin, kimai2_end, project, activity)
+            resp = api.create_timesheet(user, kimai2_begin, kimai2_end, project, activity)
 
             if resp.status_code != 200:
                 # wrong hhtp response, log error

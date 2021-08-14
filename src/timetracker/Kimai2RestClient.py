@@ -106,8 +106,9 @@ class Kimai2API:
         }
         return self.post_action('teams', params)
 
-    def create_timesheet(self, begin, end, project, activity):
+    def create_timesheet(self, user, begin, end, project, activity):
         params = {
+            "user": user,
             "begin": str(begin),
             "end": str(end),
             "project": project,
