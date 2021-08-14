@@ -1,12 +1,6 @@
 # Coppyright (c) 2020 Francisco Javier Revilla Linares to present.
 # All rights reserved.
 import requests
-import datetime
-
-from time import sleep
-from requests.auth import HTTPBasicAuth
-from timetracker.utils import local_date_to_utc
-from timetracker.utils import date_to_kimai_date
 
 
 class Kimai2API:
@@ -94,6 +88,15 @@ class Kimai2API:
             "visible": True
         }
         return self.post_action('projects', params)
+
+    def create_activity(self, name, project, color, visible=True):
+        params = {
+            "name": name,
+            "project": project,
+            "color": color,
+            "visible": visible,
+        }
+        return self.post_action('activities', params)
 
     def create_team(self, name, leader_id):
         params = {

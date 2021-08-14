@@ -53,11 +53,14 @@ class Kimai2Controller:
     def create_project(self):
         create_project(self.api)
 
+    def create_activity(self):
+        create_activity(self.api)
+
     def create_users(self):
         create_users(self.api)
 
     def create_timesheets(self):
-        create_timesheets()
+        create_timesheets(self.api)
 
 
 def create_team_leader(api, username, email, lang, tz, password):
@@ -230,12 +233,6 @@ def create_project(api, force=False):
             logger.info("KIMAI2 => Finished creating a project")
             return
 
-        # check
-        leader = models.get_leader(models.session_factory())
-        if leader is None or leader.k2_id is None:
-            logging.exception("Failed to create a project in Kimai2. There is no team leader.")
-            return
-
         # collect info
         name = models.get_company_short(models.session_factory()).value
         customer = models.get_customer(models.session_factory()).k2_id
@@ -268,6 +265,52 @@ def create_project(api, force=False):
         logging.error("Failed to save data into the database")
 
     logger.info("KIMAI2 => Finished creating a project")
+
+
+def create_activity(api):
+    logger.info("KIMAI2 => Creating activity")
+    try:
+        # check if is already created
+        activity = models.get_activity(models.session_factory())
+        if activity is not None and activity.k2_id is not None:
+            logger.info("Activiy no created. Activity already exists")
+            logger.info("KIMAI2 => Finished creating an activity")
+            return
+        # check if project exists
+        project = models.get_project(models.session_factory()).k2_id
+        if project is None:
+            logger.error("Failed to create activity in kimai2, no project id.")
+            return
+        # collect info
+        name = models.get_company_short(models.session_factory()).value
+        color = models.get_color(models.session_factory()).value
+    except Exception:
+        logger.error("Error collecting data from the database.")
+        return
+
+    # create activity in Kimai2
+    try:
+        resp = api.create_activity(name, project, color)
+    except Exception:
+        logger.error(f"Error connecting to kimai2: ({api.url}, {project}, {color}")
+        return
+
+    if resp.status_code != 200:
+        logger.error("Failed to create activity in Kimai2: %s", name)
+        logger.error("Status: {}, Values: {}, {}".format(
+            str(resp.status_code), name, color))
+        logger.error(resp.json())
+        return
+
+    # update local database
+    try:
+        obj = resp.json()
+        models.set_activity(obj['name'], models.session_factory(), obj['id'])
+        logger.info("ACtivity created: {}, {}".format(obj['id'], obj['name']))
+    except Exception:
+        logging.error("Failed to save data into the database")
+
+    logger.info("KIMAI2 => Finished creating an activity")
 
 
 def create_users(api):
@@ -329,7 +372,7 @@ def create_users(api):
     logger.info("KIMAI2 => Finished creating users")
 
 
-def create_timesheets():
+def create_timesheets(api):
     logger.info("KIMAI2 => Creating teamsheats")
 
     # checks
@@ -337,9 +380,12 @@ def create_timesheets():
         project = models.get_project(models.session_factory()).k2_id
         tz = models.get_timezone(models.session_factory()).value
         password = models.get_user_password(models.session_factory()).value
-        url = KIMAI2_URL
+        activity = models.get_activity(models.session_factory()).k2_id
         if project is None:
             logger.error("Failed to create timesheet in kimai2, no project id.")
+            return
+        if activity is None:
+            logger.error("Failed to create timesheet in kimai2, no activity id.")
             return
         if tz is None:
             logger.error("Failed to create timesheet in kimai2, no timezone defined.")
@@ -366,13 +412,12 @@ def create_timesheets():
             kimai2_end = date_to_kimai_date(utc_end)
 
             # api manager
-            ##user_k2_id = models.get_user_by_id(ts.user_id).k2_id
             if ts.user.k2_id is None:
-                logger.error("Failed to create timesheet in kimai2, user does not exists in kimai2.")
+                logger.error(f"Failed to create timesheet. User {ts.user.name} does not exists")
                 return
-
-            api = Kimai2RestClient.Kimai2API(ts.user.k2_name, ts.user.k2_password, url)
-            resp = api.create_timesheet(kimai2_begin, kimai2_end, project, 1)
+            # user_k2_id = models.get_user_by_id(ts.user_id).k2_id
+            # api = Kimai2RestClient.Kimai2API(ts.user.k2_name, ts.user.k2_password, url)
+            resp = api.create_timesheet(kimai2_begin, kimai2_end, project, activity)
 
             if resp.status_code != 200:
                 # wrong hhtp response, log error
@@ -385,7 +430,7 @@ def create_timesheets():
                 # right http response, update local database
                 obj = resp.json()
                 models.set_timesheet_kimai_id(ts, obj['id'], session)
-                logger.info("Timesheet created: {}, {}".format(kimai2_begin, kimai2_end, project, 1))
+                logger.info("Timesheet created: {}, {}, {}, {}".format(kimai2_begin, kimai2_end, project, 1))
                 total_ts += 1
 
         except Exception:

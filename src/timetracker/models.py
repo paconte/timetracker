@@ -487,6 +487,16 @@ def set_project(name, session, k2_id=None):
     add_kimai2_setting('project', name, k2_id, session)
 
 
+def get_activity(session):
+    result = session.query(Setting).get('activity')
+    session.close()
+    return result
+
+
+def set_activity(name, session, k2_id=None):
+    add_kimai2_setting('activity', name, k2_id, session)
+
+
 def get_team(session):
     result = session.query(Setting).get('team')
     session.close()
