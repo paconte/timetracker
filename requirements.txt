@@ -1,6 +1,6 @@
 SQLAlchemy==1.4.22
 scp==0.13.6
-Pillow==8.3.2
+Pillow==9.0.0
 pyserial==3.5
 PyYAML==5.4.1
 requests==2.26.0
